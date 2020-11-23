@@ -50,3 +50,17 @@ sumDigits n = sum (spreadDigits n)
 -- 3. Calculate the remainder when the sum is divided by 10. If the result is 0 the number is valid.
 validate :: Integer -> Bool
 validate n = (sumDigits (doubleEveryOther (toDigits n))) `rem` 10 == 0
+
+
+-- Exercise 5
+
+type Peg = String
+type Move = (Peg, Peg)
+
+hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
+hanoi numDisks source destination storage 
+ | numDisks <= 0 = []
+ | otherwise = hanoi (numDisks - 1) source storage destination      -- move all but the last disk to storage
+                ++ [(source, destination)]                          -- move  the last (largest) disk to destination
+                ++ hanoi (numDisks -1) storage destination source   -- move all storage disks to desintation
+
