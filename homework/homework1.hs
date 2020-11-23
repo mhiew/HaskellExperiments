@@ -64,3 +64,27 @@ hanoi numDisks source destination storage
                 ++ [(source, destination)]                          -- move  the last (largest) disk to destination
                 ++ hanoi (numDisks -1) storage destination source   -- move all storage disks to desintation
 
+
+-- Exercise 6
+
+-- helper function to calculate the top half 
+topHalf :: Integer -> Integer
+topHalf x = x `div` 2   -- relies truncating decimals
+
+-- helper function to calculate bottom half excluding last disk
+bottomHalf :: Integer -> Integer
+bottomHalf x = ((x - 1) `div` 2) -- relies on truncating decimals
+
+hanoi4 :: Integer -> Peg -> Peg -> Peg -> Peg -> [Move] -- function overloading didn't work. maybe they teach it to use later...for now suffix with 4
+hanoi4 numDisks source destination storage1 storage2
+ | numDisks <= 0 = []
+ | otherwise = hanoi4 (topHalf numDisks) source storage1 destination storage2       -- move topHalf to storage 1 can use both storage as empty
+                ++ hanoi (bottomHalf numDisks) source storage2 destination          -- move bottomHalf excluding last to storage 2 (storage1 is off limits)
+                ++ [(source, destination)]                                          -- move last disk (biggest disk) to destination 
+                ++ hanoi (bottomHalf numDisks) storage2 destination source          -- move bottomHalf excluding last to destination (source is valid (empty), storage1 is off limits)
+                ++ hanoi4 (topHalf numDisks) storage1 destination source storage2   -- move topHalf to destination can use all pegs as all platforms hold bigger disks
+
+
+-- convenience test method with predefined pegs
+hanoi4Test :: Integer -> [Move]
+hanoi4Test numDisks = hanoi4 numDisks "a" "b" "c" "d"
