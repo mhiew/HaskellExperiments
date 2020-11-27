@@ -1,3 +1,13 @@
+module Homework1
+( toDigits
+, toDigitsRev
+, doubleEveryOther
+, sumDigits
+, validate
+, hanoi
+, hanoi4
+) where 
+
 -- Exercise 1
 
 -- helper function to recursively reverse a list
